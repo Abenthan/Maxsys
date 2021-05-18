@@ -1,0 +1,2 @@
+npm i express (para instalar framework express)
+npm i nodemon -D (para instalar modulo nodemon en devpedencies)

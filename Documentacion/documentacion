@@ -1,0 +1,4 @@
+puerto http: 4001
+
+Para conectarse maxsysdb por cmd
+.\mysql -h instanciamaxsysdb.cvglkugfembr.us-east-2.rds.amazonaws.com -u admin -p

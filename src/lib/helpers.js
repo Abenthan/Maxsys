@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs'); // bcryptjs es un mosulo para manejar contraseñas encrptadas
+const bcrypt = require('bcryptjs'); // bcryptjs es un modulo para manejar contraseñas encrptadas
 const helpers = {};
 
 helpers.encryptPassword = async (password) =>{

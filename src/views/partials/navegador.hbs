@@ -4,7 +4,7 @@
       <ul class="navbar-nav">
         <li class="nav-item">
           <a href="#" class="nav-link">
-            {{ccuenta.nombre}}
+            {{cuenta.nombre}}
           </a>
         </li>
       </ul>
@@ -38,7 +38,20 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
         {{#if user}}
-        <li class="nav-item dropdown">
+
+        <li class="nav-item dropdown"> <!-- Requerimientos -->
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Requerimientos
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/requerimientos">Todos los requerimientos</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/requerimientos/crear">Crear requerimiento</a>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown"> <!-- Cuentas -->
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Cuentas
@@ -49,10 +62,11 @@
             <a class="dropdown-item" href="/cuentas/add">Agregar cuenta</a>
           </div>
         </li>
-        <li class="nav-item">
+
+        <li class="nav-item"> <!-- Perfil -->
           <a href="/perfil" class="nav-link">Perfil</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"> <!-- LogOut -->
           <a href="/logout" class="nav-link">Cerrar Sesion</a>
         </li>
         {{else}}

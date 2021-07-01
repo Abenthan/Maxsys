@@ -1,18 +1,18 @@
 <div class="container p-4">
     <div class="row">
-        
+
         {{#each cuentas}}
-            <div class="col-md-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <a href="cuentas/perfilCuenta/{{id}}">
-                           <h3 class="card-title text-uppercase">
-                                {{nombre}}
-                            </h3>
-                        </a>
-                    </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <a href="cuentas/perfilCuenta/{{id}}" id="perfilCuenta">
+                        <h3 class="card-title text-uppercase">
+                            {{nombre}}
+                        </h3>
+                    </a>
                 </div>
             </div>
+        </div>
         {{/each}}
     </div>
 </div>

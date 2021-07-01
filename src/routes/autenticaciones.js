@@ -12,7 +12,7 @@ router.post('/nuevoUsuario', isNotLoggedIn,
     passport.authenticate('local.nuevoUsuario', { // configuro el metodo authenticate del passport
         successRedirect: '/perfil', // donde se va a  dirigir cuando el proceso nuevoUsuario sea correcto
         failureRedirect: '/nuevoUsuario', // cuando falla el proceso de registro lo redirije nuevoUsuario
-        failureFash: true  // le permite a passport poder recibir estos mensajes Flash
+        failureFlash: true  // le permite a passport poder recibir estos mensajes Flash
     })
 );
 

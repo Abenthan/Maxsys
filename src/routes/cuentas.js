@@ -48,17 +48,18 @@ router.post('/add', isLoggedIn, async (req, res) => {
 
 router.get('/', isLoggedIn, async (req, res) => {
     const cuentas = await pool.query('SELECT * FROM cuentas');
-    console.log (cuentas);
     res.render('cuentas/list', { cuentas });
 });
 
 
-
 router.get('/perfilCuenta/*', isLoggedIn, async (req, res) => {
     const  idCuenta = req.url.replace('/perfilCuenta/', '');
-    const cuenta = await pool.query('SELECT * FROM cuentas WHERE id = ?', idCuenta);
-    const ccuenta = cuenta[0];
-    res.render('cuentas/perfilCuenta', { ccuenta });
+    ccuenta = await pool.query('SELECT * FROM cuentas WHERE id = ?', idCuenta);
+    req.session.cuenta = ccuenta[0];
+    const cuenta = req.session.cuenta;
+    res.render('cuentas/perfilCuenta', { cuenta })
 });
+
+
 
 module.exports = router;

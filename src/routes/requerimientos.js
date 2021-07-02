@@ -12,9 +12,10 @@ router.post('/crear', async (req, res) => {
     const newRequerimiento = {
         asunto: req.body.asunto,
         descripcion: req.body.descripcion,
-        cuenta_id: cuenta.id};    
+        cuenta_id: cuenta.id,
+        user_id: req.user.id};    
     const idRequerimiento = await pool.query('INSERT INTO requerimientos SET ?', [newRequerimiento]);
-    req.flash('success', 'Cuenta agregada satisfactoriamente');
-    res.redirect('./cuentas/perfilcuenta/' + cuenta.id);
+    req.flash('success', 'Requerimiento enviado satisfactoriamente');
+    res.redirect('../cuentas/perfilcuenta/' + cuenta.id);
 });
 module.exports = router;

@@ -21,6 +21,7 @@ router.post('/crear', async (req, res) => {
 
 router.get('/', async (req, res) =>{
     const requerimientos = await pool.query('SELECT * FROM requerimientos');
-    res.render('requerimientos/listaRequerimientos', { requerimientos })
+    const cuenta = req.session.cuenta;
+    res.render('requerimientos/requerimientos', { requerimientos, cuenta })
 });
 module.exports = router;

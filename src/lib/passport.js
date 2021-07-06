@@ -4,16 +4,16 @@ const pool = require('../database');
 const helpers = require('../lib/helpers');
 
 passport.use('local.logIn', new LocalStrategy({
-    usernameField: 'username',
+    usernameField: 'email',
     passwordField: 'password',
     passReqToCallback: true
-}, async (req, username, password, done) => {
-    const rows = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+}, async (req, email, password, done) => {
+    const rows = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
     if (rows.length > 0) {
         const user = rows[0];
         const validPassword = await helpers.matchPassword(password, user.password);
         if (validPassword) {
-            done(null, user, req.flash('success', 'Bienvenid@ ' + user.username));
+            done(null, user, req.flash('success', 'Bienvenid@ ' + user.fullname));
         } else {
             done(null, false, req.flash('message', 'Contraseña Incorrecta'));
         }
@@ -29,13 +29,13 @@ passport.use('local.nuevoUsuario', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async (req, username, password, done) => {
-    const { fullname, email } = req.body;
+    const { fullname, email, telefono } = req.body;
     const newUser = {
         fullname,
         username,
         email,
         telefono,
-        password,
+        password
     }
     newUser.password = await helpers.encryptPassword(password); // encripta el password y lo almacena en el objeto newUser
     const result = await pool.query('INSERT INTO users SET ?', [newUser]);

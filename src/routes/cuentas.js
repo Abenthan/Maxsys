@@ -54,7 +54,7 @@ router.get('/', isLoggedIn, async (req, res) => {
 
 router.get('/perfilCuenta/*', isLoggedIn, async (req, res) => {
     const  idCuenta = req.url.replace('/perfilCuenta/', '');
-    ccuenta = await pool.query('SELECT * FROM cuentas WHERE id = ?', idCuenta);
+    const ccuenta = await pool.query('SELECT * FROM cuentas WHERE id = ?', idCuenta);
     req.session.cuenta = ccuenta[0];
     const cuenta = req.session.cuenta;
     res.render('cuentas/perfilCuenta', { cuenta })

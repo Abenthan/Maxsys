@@ -32,8 +32,9 @@ passport.use('local.nuevoUsuario', new LocalStrategy({
     const { fullname, email } = req.body;
     const newUser = {
         fullname,
-        email,
         username,
+        email,
+        telefono,
         password,
     }
     newUser.password = await helpers.encryptPassword(password); // encripta el password y lo almacena en el objeto newUser

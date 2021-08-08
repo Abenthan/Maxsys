@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <div>
+  <div class="container"> 
+    <div> <!-- cuenta -->
       <ul class="navbar-nav">
         <li class="nav-item">
           <a href="#" class="nav-link">
@@ -10,9 +10,14 @@
       </ul>
     </div>
 
-    <div>
+    <div> <!-- usuario -->
       <ul class="navbar-nav">
         {{#if user}}
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            permisosUsuario
+          </a>
+        </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
             {{user.fullname}}

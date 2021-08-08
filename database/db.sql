@@ -23,3 +23,15 @@ CREATE TABLE empresas (
     identificacion VARCHAR(20) NOT NULL,
     fecha_registro timestamp NOT NULL DEFAULT current_timestamp
 );
+
+CREATE TABLE permisosUsuario (
+    id INT(11) NOT NULL,
+    user_id INT(11) NOT NULL,
+    cantidadCrearCuentas INT(2)
+);
+
+ALTER TABLE permisosUsuario
+    ADD PRIMARY KEY (id);
+
+ALTER TABLE permisosUsuario
+    MODIFY id INT(11) NOT NULL AUTO_INCREMENT;

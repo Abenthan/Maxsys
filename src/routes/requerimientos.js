@@ -19,9 +19,9 @@ router.post('/crear', async (req, res) => {
     res.redirect('../cuentas/perfilcuenta/' + cuenta.id);
 });
 
-router.get('/', async (req, res) =>{
+router.get('/', async (req, res) => {
     const requerimientos = await pool.query('SELECT * FROM requerimientos');
-    const cuenta = req.session.cuenta;
-    res.render('requerimientos/requerimientos', { requerimientos, cuenta })
+    //const cuenta = req.session.cuenta;
+    res.render('requerimientos/requerimientos', { requerimientos })
 });
 module.exports = router;

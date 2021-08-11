@@ -46,6 +46,8 @@ app.use((req, res, next) => {
     app.locals.success = req.flash('success');
     app.locals.message = req.flash('message');
     app.locals.user =  req.user;
+    app.locals.cuenta = req.session.cuenta;
+    
     next();
 });
 
@@ -63,4 +65,5 @@ app.use(express.static(path.join(__dirname, 'public'))); // decimos donde esta l
 // INICIANDO EL SERVIDOR
 app.listen(app.get('port'), ()=>{
     console.log('Servidor en puerto', app.get('port'));
+
 });

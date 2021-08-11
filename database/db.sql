@@ -27,11 +27,12 @@ CREATE TABLE empresas (
 CREATE TABLE permisosUsuario (
     id INT(11) NOT NULL,
     user_id INT(11) NOT NULL,
-    cantidadCrearCuentas INT(2)
+    cantidadCrearCuentas INT(2),
+    CONSTRAINT fk_permisosUsuario FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-ALTER TABLE permisosUsuario
-    ADD PRIMARY KEY (id);
+ALTER TABLE permisosUsuario ADD PRIMARY KEY (id);
 
-ALTER TABLE permisosUsuario
-    MODIFY id INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE permisosUsuario MODIFY id INT(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE permisosUsuario ADD superUsuario TINYINT;

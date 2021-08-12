@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router(); // router es el metodo que utilizamos del modulo express para configurar rutas 
 
 const passport = require('passport'); // passport es el metodo que utilizamos para autenticaciones
+const pool = require('../database');
 const {isLoggedIn, isNotLoggedIn} = require('../lib/auth');
 
 router.get('/nuevoUsuario', (req, res) => {
@@ -28,8 +29,11 @@ router.post('/logIn', isNotLoggedIn, (req, res, next) => {
     })(req, res, next)
 });
 
-router.get('/perfil', isLoggedIn, (req, res) => {
-    res.render('perfil');
+router.get('/perfil', isLoggedIn, async (req, res) => {
+    const consulta = await pool.query('SELECT * FROM permisosUsuario WHERE user_id = ?', req.user.id);
+    const permisos = consulta[0];
+    req.session.sesionPermisos = permisos;
+    res.render('perfil', permisos);
 });
 
 router.get('/logout', isLoggedIn, (req, res) => { 

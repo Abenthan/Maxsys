@@ -56,9 +56,6 @@ router.get('/perfilCuenta/*', isLoggedIn, async (req, res) => {
     req.session.cuenta = ccuenta[0];
     req.app.locals.cuenta = req.session.cuenta;
     res.render('cuentas/perfilCuenta')
-
-    //const cuenta = req.session.cuenta;
-    //res.render('cuentas/perfilCuenta', { cuenta })
 });
 
 

@@ -13,11 +13,18 @@
     <div> <!-- usuario -->
       <ul class="navbar-nav">
         {{#if user}}
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            permisosUsuario  
-          </a>
-        </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              {{superUsuario}}  
+            </a>
+          </li>
+          {{#if superUsuario}}
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                permisosUsuario  
+              </a>
+            </li>
+          {{/if}}
         <li class="nav-item">
           <a href="#" class="nav-link">
             {{user.fullname}}

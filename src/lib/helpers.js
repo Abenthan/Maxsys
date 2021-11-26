@@ -1,3 +1,4 @@
+const pool = require('../database');
 const bcrypt = require('bcryptjs'); // bcryptjs es un modulo para manejar contraseñas encrptadas
 const helpers = {};
 
@@ -15,6 +16,40 @@ helpers.matchPassword = async (password, savedPassword) => { // el metodo matchP
     }
 
 };
+
+//permisos de usuario para la cuenta
+helpers.permisos = async (user_id, cuenta_id) => {
+    var permisos = {
+        user_id,
+        cuenta_id,
+        perfil: false,
+        usuariosCuenta: false,
+        consultaEmail: false,
+        permisosCuentaUsuario: false,
+        reqListarXUsuario: false,
+        reqListarXCuenta: false,
+        reqCrear: false
+    }
+
+    const cuentasUsuario = await pool.query('SELECT * FROM cuentasUsuario WHERE user_id = ? AND cuenta_id = ?', [user_id, cuenta_id]);
+    if (cuentasUsuario.length > 0) {
+        permisos.perfil = cuentasUsuario[0].perfil;
+        const { id } = cuentasUsuario[0];
+        console.log(id);
+        const pcu = await pool.query('SELECT * FROM permisosCuentaUsuario WHERE cuentasUsuario_id = ?', [id]);
+        console.log(pcu);
+        if (pcu.length > 0) {
+            permisos.usuariosCuenta = pcu[0].usuariosCuenta;
+            permisos.consultaEmail = pcu[0].consultaEmail;
+            permisos.permisosCuentaUsuario = pcu[0].permisosCuentaUsuario;
+            permisos.reqListarXUsuario = pcu[0].reqListarXUsuario;
+            permisos.reqListarXCuenta = pcu[0].reqListarXCuenta;
+            permisos.reqCrear = pcu[0].reqCrear;
+        }
+    }
+   return permisos;
+
+}
 
 
 module.exports =  helpers;

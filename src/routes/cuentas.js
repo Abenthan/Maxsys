@@ -58,6 +58,15 @@ router.get('/perfilCuenta/*', isLoggedIn, async (req, res) => {
     res.render('cuentas/perfilCuenta')
 });
 
+//lista de usuarios de una cuenta
+router.get('/usuariosCuenta/:id', isLoggedIn, async (req, res) => {
+    //const cuenta = req.session.cuenta;
+    const { id } = req.params;
+    const usuarios = await pool.query('SELECT cuentasUsuario.id, users.fullname, users.username, cuentasUsuario.perfil, cuentasUsuario.user_id FROM cuentasUsuario INNER JOIN users ON cuentasUsuario.user_id = users.id WHERE cuenta_id = ?', [id]);
+    res.render('cuentas/usuariosCuenta', { usuarios });
+});
+
+
 
 
 

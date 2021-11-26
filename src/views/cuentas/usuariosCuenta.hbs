@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="col-12 p-4">
+                <a href="/ajustes/consultaEmail/" class="btn btn-outline-info">Agregar Cuenta</a>
+                <h3 class="text-primary text-center">Usuarios de la cuenta</h3>
+            </div>
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Usuario</th>
+                        <th>Perfil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each usuarios}}
+                    <tr>
+                        <td><a href="/ajustes/permisosUsuario/{{user_id}}">{{fullname}}</a></td>
+                        <td><a href="/ajustes/permisosUsuario/{{user_id}}">{{username}}</a></td>
+                        <td><a href="/ajustes/permisosUsuario/{{user_id}}">{{perfil}}</a></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</div>

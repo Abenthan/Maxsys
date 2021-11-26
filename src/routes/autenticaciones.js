@@ -30,10 +30,10 @@ router.post('/logIn', isNotLoggedIn, (req, res, next) => {
 });
 
 router.get('/perfil', isLoggedIn, async (req, res) => {
-    const consulta = await pool.query('SELECT * FROM permisosUsuario WHERE user_id = ?', req.user.id);
-    const permisos = consulta[0];
-    req.session.sesionPermisos = permisos;
-    res.render('perfil', permisos);
+    //const consulta = await pool.query('SELECT * FROM permisosUsuario WHERE user_id = ?', req.user.id);
+    //const permisos = consulta[0];
+    //req.session.sesionPermisos = permisos;
+    res.render('perfil');
 });
 
 router.get('/logout', isLoggedIn, (req, res) => { 

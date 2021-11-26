@@ -1,0 +1,78 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="col-12">
+                <h3>
+                    <i class="fas fa-user-lock"></i>
+                    Permisos de usuario
+                </h3>    
+                <p>{{permisosCuenta.fullname}}</p>
+                <p>( {{permisosCuenta.username}} )</p>
+                <hr>
+                <div>
+                    <form action="/ajustes/permisosUsuario" method="post">
+                        <div class="form-group">
+                            <label for="user_id">id del Usuario</label>
+                            <input type="number" class="form-control" name="user_id" id="user_id" value="{{permisosCuenta.user_id}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="perfil">Perfil</label>
+                            <select name="perfil" id="perfil" class="form-control">
+                                <option value="propietario" {{#if permisosCuenta.perfilPropietario}}selected{{/if}}>Propietario</option>
+                                <option value="administrador" {{#if permisosCuenta.perfilAdministrador}}selected{{/if}}>Administrador</option>
+                                <option value="soporte" {{#if permisosCuenta.perfilSoporte}}selected{{/if}}>Soporte</option>
+                                <option value="estandar" {{#if permisosCuenta.perfilEstandar}}selected{{/if}}>Estandar</option>
+                            </select>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label" for="usuariosCuenta">
+                                <input type="checkbox" class="form-check-input" id="usuariosCuenta" name="usuariosCuenta" value= "1" {{#if permisosCuenta.usuariosCuenta}}checked{{/if}}>
+                                Usuarios en la cuenta
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label" for="consultaEmail">
+                                <input type="checkbox" class="form-check-input" id="consultaEmail" name="consultaEmail" value= "1" {{#if permisosCuenta.consultaEmail}}checked{{/if}}>
+                                Buscar usuario por email
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <label class="form-check-label" for="permisosCuentaUsuario">
+                                <input type="checkbox" class="form-check-input" id="permisosCuentaUsuario" name="permisosCuentaUsuario" value= "1" {{#if permisosCuenta.permisosCuentaUsuario}}checked{{/if}}>
+                                Permisos de cuenta de usuario
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label" for="reqListarXUsuario">
+                                <input type="checkbox" class="form-check-input" id="reqListarXUsuario" name="reqListarXUsuario" value= "1" {{#if permisosCuenta.reqListarXUsuario}}checked{{/if}}>
+                                Requerimientos del usuario                                
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <label class="form-check-label" for="reqListarXCuenta">
+                                <input type="checkbox" class="form-check-input" id="reqListarXCuenta" name="reqListarXCuenta" value="1" {{#if permisosCuenta.reqListarXCuenta}}checked{{/if}}>
+                                Requerimientos de la cuenta
+                            </label>
+                        </div>                       
+
+                        <div class="form-check">
+                            <label class="form-check-label" for="reqCrear">
+                                <input type="checkbox" class="form-check-input" id="reqCrear" name="reqCrear" value= "1" {{#if permisosCuenta.reqCrear}}checked{{/if}}>
+                            Crear Requerimiento
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>Guardar</button>
+                        <a href="/cuentas/usuariosCuenta/{{cuenta.id}}" class="btn btn-danger"><i class="fas fa-ban"></i>Cancelar</a>
+
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+
+</div>

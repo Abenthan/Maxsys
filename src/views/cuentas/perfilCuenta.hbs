@@ -1,12 +1,18 @@
-<div class="container p-4">
+<div class="container">
     <div class="row">
-        <div class="col-md-4 mx-auto">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h3>Nombre de cuenta:</h3> 
-                    <h3>{{cuenta.nombre}}</h3>
-                </div>
+        <div class="col">
+            <div class="col-12 p-4">
+                <h3 class="text-primary text-center">{{cuenta.nombre}}</h3>
             </div>
+
+            <div class="col d-flex justify-content-center">
+                <a href="/cuentas/usuariosCuenta/{{cuenta.id}}" class="btn btn-outline-info p-2 m-2">Permisos</a>
+                <a href="/cuentas" class="btn btn-outline-info p-2 m-2">Cambiar</a>
+                <a href="/cuentas/add" class="btn btn-outline-info p-2 m-2">Agregar</a>
+
+            </div>
+
+            
         </div>
     </div>
 </div>

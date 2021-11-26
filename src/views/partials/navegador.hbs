@@ -3,7 +3,7 @@
     <div> <!-- cuenta -->
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="/cuentas/perfilCuenta/{{cuenta.id}}" class="nav-link">
             {{cuenta.nombre}}
           </a>
         </li>
@@ -13,14 +13,9 @@
     <div> <!-- usuario -->
       <ul class="navbar-nav">
         {{#if user}}
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              {{superUsuario}}  
-            </a>
-          </li>
           {{#if superUsuario}}
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="ajustes/permisosUsuario" class="nav-link">
                 permisosUsuario  
               </a>
             </li>
@@ -57,9 +52,14 @@
             Requerimientos
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/requerimientos">Todos los requerimientos</a>
+            <a class="dropdown-item" href="/requerimientos/listarXUsuario/">Listar por Usuario</a>
+            <!--validar si hay cuenta abierta-->
+            {{#if cuenta}}
+            <a class="dropdown-item" href="/requerimientos/listarXCuenta/{{cuenta.id}}">Listar por Cuenta</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/requerimientos/crear">Crear requerimiento</a>
+            {{/if}}
+            
           </div>
         </li>
 

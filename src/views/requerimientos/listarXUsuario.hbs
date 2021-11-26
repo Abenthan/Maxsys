@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Cuenta</th>
+                        <th>Asunto</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each requerimientos}}
+                    <tr>
+                        <td>{{nombre}}</td>
+                        <td>{{asunto}}</td>
+                        <td>{{estado}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

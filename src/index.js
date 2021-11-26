@@ -53,11 +53,10 @@ app.use((req, res, next) => {
 
 // RUTAS
 app.use(require('./routes'));
+app.use('/ajustes', require('./routes/ajustes'));
 app.use('/cuentas', require('./routes/cuentas'));
 app.use('/requerimientos', require('./routes/requerimientos'));
 app.use(require('./routes/autenticaciones'));
-
-app.use('/pruebas', require('./routes/pruebas'));
 
 //ARCHIVOS PUBLICOS
 app.use(express.static(path.join(__dirname, 'public'))); // decimos donde esta la carpeta 'public'

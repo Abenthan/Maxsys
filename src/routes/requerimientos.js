@@ -37,9 +37,9 @@ router.get('/listar', async (req, res) => {
 
 //Listar todos los requerimientos del usuario
 router.get('/listarXUsuario', async (req, res) => {
-    const cuenta = req.session.cuenta;
-    const requerimientos = await pool.query('SELECT idRequerimiento, cuentas.nombre, asunto, estado FROM requerimientos INNER JOIN cuentas ON requerimientos.cuenta_id = cuentas.id WHERE user_id = ?', [req.user.id]);
-    res.render('requerimientos/listarXUsuario', { requerimientos, cuenta });
+    const consulta = "SELECT cuentas.nombre, requerimientos.asunto, requerimientos.estado FROM requerimientos INNER JOIN cuentas ON requerimientos.cuenta_id = cuentas.id INNER JOIN cuentasUsuario ON cuentas.id = cuentasUsuario.cuenta_id INNER JOIN permisosCuentaUsuario ON cuentasUsuario.id = permisosCuentaUsuario.cuentasUsuario_id WHERE cuentasUsuario.user_id = ? AND permisosCuentaUsuario.reqListarXUsuario = 1";
+    const requerimientos = await pool.query(consulta, [req.user.id]);
+    res.render('requerimientos/listarXUsuario', { requerimientos });
 });
 
 module.exports = router;

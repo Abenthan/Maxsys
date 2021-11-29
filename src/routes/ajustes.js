@@ -83,7 +83,7 @@ router.get('/permisosUsuario/:user_id', async (req, res) => {
                 permisosCuenta.perfilEstandar = true;
                 break;
         }
-        console.log(permisosCuenta);
+        
         res.render('ajustes/permisosUsuario', { permisosCuenta });
 
     }else{  
@@ -140,12 +140,12 @@ router.post('/permisosUsuario', async (req, res) => {
         await pool.query('UPDATE cuentasUsuario SET ? WHERE id = ?', [CU, id_cuentasUsuario]);
 
         //buscar registro en permisosCuentaUsuario
-        const permisosCuentaUsuario = await pool.query('SELECT * FROM permisosCuentaUsuario WHERE idPCU = ?', [id_cuentasUsuario]);
+        const permisosCuentaUsuario = await pool.query('SELECT * FROM permisosCuentaUsuario WHERE cuentasUsuario_id = ?', [id_cuentasUsuario]);
 
         //si encuentra registro en permisosCuentaUsuario
         if (permisosCuentaUsuario.length > 0) {
             //actualizar registro en permisosCuentaUsuario
-            await pool.query('UPDATE permisosCuentaUsuario SET ? WHERE idPCU = ?', [permisosCU, id_cuentasUsuario]);
+            await pool.query('UPDATE permisosCuentaUsuario SET ? WHERE cuentasUsuario_id = ?', [permisosCU, id_cuentasUsuario]);
         } else {
             //insertar registro en permisosCuentaUsuario
             await pool.query('INSERT INTO permisosCuentaUsuario SET ?', [permisosCU]);
@@ -156,6 +156,7 @@ router.post('/permisosUsuario', async (req, res) => {
 
         permisosCU.cuentasUsuario_id = result.insertId;
         
+        console.log(permisosCU);
         //insertar registro en permisosCuentaUsuario
         await pool.query('INSERT INTO permisosCuentaUsuario SET ?', [permisosCU]);
     }

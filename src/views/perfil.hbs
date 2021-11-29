@@ -1,14 +1,22 @@
 <div class="container p-4">
     <div class="row">
-        <div class="col-md-4 mx-auto">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h3>Bienvenido {{user.fullname}}</h3> {{!-- el objeto user esta alojado localmente con express.locals --}}
-                    <h4>{{user.username}}</h4>
-                    <a href="/cuentas" class="btn btn-primary m-4">
-                        Cuentas
-                    </a>
+        <div class="col">
+            <div class="card">
+                <div class="card-header text-center">  
+                    <h3>{{user.fullname}}</h3> {{!-- el objeto user esta alojado localmente con express.locals --}}
+                    
                 </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <p class="h4">{{user.username}}</p>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                        <a href="/cuentas" class="btn btn-outline-info p-2 m-2">Cuentas</a>
+                        <a href="/requerimientos/listarXUsuario" class="btn btn-outline-info p-2 m-2">Requerimientos</a>    
+                    </div>
+                </div>
+
+                    
             </div>
         </div>
     </div>

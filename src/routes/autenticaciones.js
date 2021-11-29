@@ -38,6 +38,8 @@ router.get('/perfil', isLoggedIn, async (req, res) => {
 
 router.get('/logout', isLoggedIn, (req, res) => { 
     req.logOut();
+    delete req.session.cuenta;
+    req.app.locals.cuenta = null;
     res.redirect('/logIn');
 });
 module.exports = router;

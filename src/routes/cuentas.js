@@ -68,6 +68,13 @@ router.get('/usuariosCuenta/:id', isLoggedIn, async (req, res) => {
 
 
 
+// cerrar cuenta
+router.get('/cerrar', isLoggedIn, async (req, res) => {
+    delete req.session.cuenta;
+    req.app.locals.cuenta = null;
+    res.redirect('/cuentas');   
+});
+
 
 
 module.exports = router;

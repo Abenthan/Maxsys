@@ -35,9 +35,7 @@ helpers.permisos = async (user_id, cuenta_id) => {
     if (cuentasUsuario.length > 0) {
         permisos.perfil = cuentasUsuario[0].perfil;
         const { id } = cuentasUsuario[0];
-        console.log(id);
         const pcu = await pool.query('SELECT * FROM permisosCuentaUsuario WHERE cuentasUsuario_id = ?', [id]);
-        console.log(pcu);
         if (pcu.length > 0) {
             permisos.usuariosCuenta = pcu[0].usuariosCuenta;
             permisos.consultaEmail = pcu[0].consultaEmail;

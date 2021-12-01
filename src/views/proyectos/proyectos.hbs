@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="m-2 text-center">
+                <h3>Proyectos</h3>
+            </div>
+            <div>
+                <a href="/proyectos/nuevoProyecto/" class="btn btn-outline-info" >
+                    Nuevo Proyecto
+                </a>
+            </div>
+            <div class="p-2">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nombre de proyecto</th>
+                            <th>Fecha de inicio</th>
+                            <th>Fecha de finalización</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each proyectos}}
+                        <tr>
+                            <td><a href="#">
+                                {{nombreProyecto}}
+                            </a></td>
+                            <td>{{fechaInicio}}</td>
+                            <td>{{fechaFin}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>

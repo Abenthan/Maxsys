@@ -24,7 +24,6 @@ router.get('/listarXCuenta/:id', async (req, res) => {
     //const cuenta = req.session.cuenta;
     const { id } = req.params;
     const requerimientos = await pool.query('SELECT users.username, requerimientos.asunto, requerimientos.estado FROM requerimientos INNER JOIN users ON requerimientos.user_id = users.id WHERE cuenta_id = ?', [id]);
-    console.log(requerimientos);
     res.render('requerimientos/listarXCuenta', { requerimientos });
 });
 

@@ -28,7 +28,9 @@ helpers.permisos = async (user_id, cuenta_id) => {
         permisosCuentaUsuario: false,
         reqListarXUsuario: false,
         reqListarXCuenta: false,
-        reqCrear: false
+        reqCrear: false,
+        nuevoProyecto: false,
+        proyectos: false
     }
 
     const cuentasUsuario = await pool.query('SELECT * FROM cuentasUsuario WHERE user_id = ? AND cuenta_id = ?', [user_id, cuenta_id]);
@@ -43,6 +45,8 @@ helpers.permisos = async (user_id, cuenta_id) => {
             permisos.reqListarXUsuario = pcu[0].reqListarXUsuario;
             permisos.reqListarXCuenta = pcu[0].reqListarXCuenta;
             permisos.reqCrear = pcu[0].reqCrear;
+            permisos.nuevoProyecto = pcu[0].nuevoProyecto;
+            permisos.proyectos = pcu[0].proyectos
         }
     }
    return permisos;

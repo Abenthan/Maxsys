@@ -8,7 +8,7 @@ router.get('/consultaEmail', (req, res) => {
     res.render('ajustes/consultaEmail')
 })
 
-// consultar email
+// POST consultaEmail
 router.post('/consultaEmail', async (req, res) => {
     const { email } = req.body;
     const usuario = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
@@ -19,6 +19,7 @@ router.post('/consultaEmail', async (req, res) => {
             username: usuario[0].username,
             user_id: permisosCU.user_id,
             cuenta_id: permisosCU.cuenta_id,
+            perfilPropietario: permisosCU.perfilPropietario,
             perfilAdministrador: false,
             perfilSoporte: false,
             perfilEstandar: false,
@@ -27,9 +28,15 @@ router.post('/consultaEmail', async (req, res) => {
             permisosCuentaUsuario: permisosCU.permisosCuentaUsuario,
             reqListarXUsuario: permisosCU.reqListarXUsuario,
             reqListarXCuenta: permisosCU.reqListarXCuenta,
-            reqCrear: permisosCU.reqCrear
+            reqCrear: permisosCU.reqCrear,
+            nuevoProyecto: permisosCU.nuevoProyecto,
+            proyectos: permisosCU.proyectos
         };
         switch (permisosCU.perfil) {
+            case 'propietario':
+                permisosCuenta.perfilPropietario = true;
+                break;
+
             case 'administrador':   
                 permisosCuenta.perfilAdministrador = true;
                 break;
@@ -47,6 +54,7 @@ router.post('/consultaEmail', async (req, res) => {
     }
 })
 
+// GET permisosUsuario
 router.get('/permisosUsuario/:user_id', async (req, res) => {
     const { user_id } = req.params;
     const usuario = await pool.query('SELECT * FROM users WHERE id = ?', [user_id]);
@@ -66,7 +74,9 @@ router.get('/permisosUsuario/:user_id', async (req, res) => {
             permisosCuentaUsuario: permisosCU.permisosCuentaUsuario,
             reqListarXUsuario: permisosCU.reqListarXUsuario,
             reqListarXCuenta: permisosCU.reqListarXCuenta,
-            reqCrear: permisosCU.reqCrear
+            reqCrear: permisosCU.reqCrear,
+            nuevoProyecto: permisosCU.nuevoProyecto,
+            proyectos: permisosCU.proyectos
         };
             
         switch (permisosCU.perfil) {
@@ -93,7 +103,7 @@ router.get('/permisosUsuario/:user_id', async (req, res) => {
 })
 
 
-// guardar permisos permiososUsuario
+// post permisosUsuario
 router.post('/permisosUsuario', async (req, res) => {
     function unocero (numero) {
         if (numero != 1) {
@@ -111,6 +121,9 @@ router.post('/permisosUsuario', async (req, res) => {
     const reqListarXUsuario = unocero(req.body.reqListarXUsuario);
     const reqListarXCuenta = unocero(req.body.reqListarXCuenta);
     const reqCrear = unocero(req.body.reqCrear);
+    const nuevoProyecto = unocero(req.body.nuevoProyecto);
+    const proyectos = unocero(req.body.proyectos);
+
 
     //Buscar en cuentasUsuario el id del nuevo usuario y la cuenta
     const cuentasUsuario = await pool.query('SELECT * FROM cuentasUsuario WHERE user_id = ? AND cuenta_id = ?', [user_id, cuenta_id]);
@@ -129,6 +142,8 @@ router.post('/permisosUsuario', async (req, res) => {
         reqListarXUsuario: reqListarXUsuario,
         reqListarXCuenta: reqListarXCuenta,
         reqCrear: reqCrear,
+        nuevoProyecto: nuevoProyecto,
+        proyectos: proyectos,
         cuentasUsuario_id: ''
     }
     
@@ -156,7 +171,6 @@ router.post('/permisosUsuario', async (req, res) => {
 
         permisosCU.cuentasUsuario_id = result.insertId;
         
-        console.log(permisosCU);
         //insertar registro en permisosCuentaUsuario
         await pool.query('INSERT INTO permisosCuentaUsuario SET ?', [permisosCU]);
     }

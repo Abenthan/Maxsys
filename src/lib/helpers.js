@@ -53,5 +53,7 @@ helpers.permisos = async (user_id, cuenta_id) => {
 
 }
 
+helpers.permitirCuenta
+
 
 module.exports =  helpers;

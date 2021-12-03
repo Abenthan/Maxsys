@@ -45,17 +45,26 @@ router.post('/add', isLoggedIn, async (req, res) => {
 });
 
 router.get('/', isLoggedIn, async (req, res) => {
-    const cuentas = await pool.query('SELECT * FROM cuentas');
+    const cuentas = await pool.query('SELECT cuentas.id, cuentas.nombre FROM cuentas INNER JOIN cuentasUsuario ON cuentas.id = cuentasUsuario.cuenta_id WHERE cuentasUsuario.user_id = ? AND cuentasUsuario.habilitar = 1', [req.user.id]);
     res.render('cuentas/list', { cuentas });
 });
 
-
+// GET PerfilCuenta
 router.get('/perfilCuenta/*', isLoggedIn, async (req, res) => {
     const idCuenta = req.url.replace('/perfilCuenta/', '');
-    const ccuenta = await pool.query('SELECT * FROM cuentas WHERE id = ?', idCuenta);
-    req.session.cuenta = ccuenta[0];
-    req.app.locals.cuenta = req.session.cuenta;
-    res.render('cuentas/perfilCuenta')
+    const ccuenta = await pool.query('SELECT * FROM cuentas INNER JOIN cuentasUsuario ON cuentas.id = cuentasUsuario.cuenta_id WHERE cuentasUsuario.cuenta_id = ? AND cuentasUsuario.user_id = ?', [idCuenta, req.user.id]);
+    if (ccuenta.length > 0) {
+        req.session.cuenta = {
+            id: ccuenta[0].id,
+            nombre: ccuenta[0].nombre
+        };
+        req.app.locals.cuenta = req.session.cuenta;
+        res.render('cuentas/perfilCuenta')
+    }else{
+        req.flash('message', 'No tienes acceso a esta cuenta, intenta con otra');
+        res.redirect('/cuentas');
+    }
+
 });
 
 //lista de usuarios de una cuenta

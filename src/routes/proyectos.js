@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../database');
-const { isLoggedIn } = require('../lib/auth');
+const { isLoggedIn, cuentaAbierta } = require('../lib/auth');
 const { permisos } = require('../lib/helpers');
 
 // proyectos
-router.get('/', isLoggedIn, async (req, res) => {
-    const cuenta = req.session.cuenta;
+router.get('/', isLoggedIn, cuentaAbierta, async (req, res) => {
+    const cuenta = req.session.cuenta;   
     // validamos si tiene pemisos para ver esta pagina
-    
     const permiso = await permisos(req.user.id, cuenta.id);
     if (permiso.proyectos == 1) {
         const proyectos = await pool.query('SELECT * FROM proyectos WHERE cuenta_id = ?', [cuenta.id]);
@@ -19,12 +18,20 @@ router.get('/', isLoggedIn, async (req, res) => {
     }
 });
 
-// nuevo proyecto
-router.get('/nuevoProyecto', isLoggedIn, async (req, res) => {
-    res.render('proyectos/nuevoProyecto');
+// GET: nuevoProyecto
+router.get('/nuevoProyecto', cuentaAbierta, isLoggedIn, async (req, res) => {
+    const cuenta = req.session.cuenta;   
+    // validamos si tiene pemisos para ver esta pagina
+    const permiso = await permisos(req.user.id, cuenta.id);
+    if (permiso.nuevoProyecto == 1) {
+        res.render('proyectos/nuevoProyecto');
+    } else {
+        req.flash('message', 'No tienes permisos para crear un proyecto');
+        res.redirect('/cuentas/perfilCuenta/'+ cuenta.id);
+    }
 });
 
-// guardar nuevo proyecto
+// POST: nuevoProyecto
 router.post('/nuevoProyecto',isLoggedIn, async (req, res) => {
     const { nombreProyecto, descripcionProyecto } = req.body;
     const cuenta = req.session.cuenta;
@@ -35,10 +42,36 @@ router.post('/nuevoProyecto',isLoggedIn, async (req, res) => {
     };
     await pool.query('INSERT INTO proyectos SET ?', [newProyecto]);
     req.flash('success', 'Proyecto guardado correctamente');
-    res.redirect('/proyectos/nuevoProyecto');
+    res.redirect('/proyectos');
 });
 
+// GET: proyecto
+router.get('/proyecto/:idProyecto', cuentaAbierta, isLoggedIn, async (req, res) => {
+    const cuenta = req.session.cuenta;   
+    // validamos si tiene pemisos para ver esta pagina
+    const permiso = await permisos(req.user.id, cuenta.id);
+    if (permiso.proyecto == 1) {
+        const { idProyecto } = req.params;
+        const proyecto = await pool.query('SELECT * FROM proyectos WHERE idProyecto = ?', [idProyecto]);
+        res.render('proyectos/proyecto', { proyecto: proyecto[0] });
+    } else {
+        req.flash('message', 'No tienes permisos para ver el proyecto');
+        res.redirect('/cuentas/perfilCuenta/'+ cuenta.id);
+    }
+});
 
+// POST: proyecto
+router.post('/proyecto/:idProyecto', isLoggedIn, async (req, res) => {
+    const { idProyecto } = req.params;
+    const { nombreProyecto, descripcionProyecto } = req.body;
+    const newProyecto = {
+        nombreProyecto,
+        descripcionProyecto
+    };
+    await pool.query('UPDATE proyectos SET ? WHERE idProyecto = ?', [newProyecto, idProyecto]);
+    req.flash('success', 'Proyecto actualizado correctamente');
+    res.redirect('/proyectos');
+});
 
 
 

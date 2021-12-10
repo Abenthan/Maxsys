@@ -30,7 +30,11 @@ router.post('/consultaEmail', async (req, res) => {
             reqListarXCuenta: permisosCU.reqListarXCuenta,
             reqCrear: permisosCU.reqCrear,
             nuevoProyecto: permisosCU.nuevoProyecto,
-            proyectos: permisosCU.proyectos
+            proyectos: permisosCU.proyectos,
+            proyecto: permisosCU.proyecto,
+            recursos: permisosCU.recursos,
+            recurso: permisosCU.recurso,
+            nuevoRecurso: permisosCU.nuevoRecurso
         };
         switch (permisosCU.perfil) {
             case 'propietario':
@@ -76,7 +80,11 @@ router.get('/permisosUsuario/:user_id', async (req, res) => {
             reqListarXCuenta: permisosCU.reqListarXCuenta,
             reqCrear: permisosCU.reqCrear,
             nuevoProyecto: permisosCU.nuevoProyecto,
-            proyectos: permisosCU.proyectos
+            proyectos: permisosCU.proyectos,
+            proyecto: permisosCU.proyecto,
+            recursos: permisosCU.recursos,
+            recurso: permisosCU.recurso,
+            nuevoRecurso: permisosCU.nuevoRecurso
         };
             
         switch (permisosCU.perfil) {
@@ -123,6 +131,10 @@ router.post('/permisosUsuario', async (req, res) => {
     const reqCrear = unocero(req.body.reqCrear);
     const nuevoProyecto = unocero(req.body.nuevoProyecto);
     const proyectos = unocero(req.body.proyectos);
+    const proyecto = unocero(req.body.proyecto);
+    const recursos = unocero(req.body.recursos);
+    const recurso = unocero(req.body.recurso);
+    const nuevoRecurso = unocero(req.body.nuevoRecurso);
 
 
     //Buscar en cuentasUsuario el id del nuevo usuario y la cuenta
@@ -144,6 +156,10 @@ router.post('/permisosUsuario', async (req, res) => {
         reqCrear: reqCrear,
         nuevoProyecto: nuevoProyecto,
         proyectos: proyectos,
+        proyecto: proyecto,
+        recursos: recursos,
+        recurso: recurso,
+        nuevoRecurso: nuevoRecurso,
         cuentasUsuario_id: ''
     }
     

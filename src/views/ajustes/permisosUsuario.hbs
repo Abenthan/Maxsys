@@ -78,6 +78,34 @@
                             </label>
                         </div>
 
+                        <div class="form-check">
+                            <label class="form-check-label" for="proyecto">
+                                <input type="checkbox" class="form-check-input" id="proyecto" name="proyecto" value= "1" {{#if permisosCuenta.proyecto}}checked{{/if}}>
+                                Proyecto
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <label class="form-check-label" for="recursos">
+                                <input type="checkbox" class="form-check-input" id="recursos" name="recursos" value= "1" {{#if permisosCuenta.recursos}}checked{{/if}}>
+                                Recursos
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <label class="form-check-label" for="recurso">
+                                <input type="checkbox" class="form-check-input" id="recurso" name="recurso" value= "1" {{#if permisosCuenta.recurso}}checked{{/if}}>
+                                Recurso
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <label class="form-check-label" for="nuevoRecurso">
+                                <input type="checkbox" class="form-check-input" id="nuevoRecurso" name="nuevoRecurso" value= "1" {{#if permisosCuenta.nuevoRecurso}}checked{{/if}}>
+                                Nuevo Recurso
+                            </label>
+                        </div>
+
 
                         <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>Guardar</button>
                         <a href="/cuentas/usuariosCuenta/{{cuenta.id}}" class="btn btn-danger"><i class="fas fa-ban"></i>Cancelar</a>

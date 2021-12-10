@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="text-center">
+                <h3>Recursos Informáticos</h3>
+            </div>
+            <div>
+                <a href="/recursos/nuevoRecurso/" class="btn btn-outline-info">
+                    <i class="fas fa-plus"></i>
+                    Nuevo Recurso
+                </a>
+            </div>
+            <div class="p-2">
+               <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nombre del recurso</th>
+                            <th>Tipo del recurso</th>
+                            <th>estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each recursos}}
+                        <tr>
+                            <td><a href="/recursos/recurso/{{idRecurso}}">
+                                {{nombreRecurso}}
+                            </a></td>
+                            <td>{{tipoRecurso}}</td>
+                            <td>{{estado}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>                  
+               </table>  
+            </div>
+
+        </div>
+    </div>
+</div>

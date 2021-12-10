@@ -11,5 +11,15 @@ module.exports = {
             return next();
         }
         return res.redirect('/perfil');
+    },
+
+    cuentaAbierta(req, res, next){
+        const cuenta = req.session.cuenta;
+        console.log(cuenta);
+        if (typeof cuenta !== 'undefined') {
+                return next();
+        }else{
+            return res.redirect('/cuentas');
+        }
     }
 }

@@ -1,0 +1,78 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="text-center">
+                <h3 class="m-2">Recurso Informático</h3>
+            </div>
+            <form action="/recursos/recurso/{{recurso.idRecurso}}" method="POST">
+                <div class="col-md-10 form-group">
+                    <label for="nombreRecurso">Nombre del recurso</label>
+                    <input type="text" 
+                        name="nombreRecurso" 
+                        id="nombreRecurso" 
+                        class="form-control"
+                        placeholder="Nombre del recurso"
+                        value="{{recurso.nombreRecurso}}"
+                        required autofocus>
+                </div>
+
+                <div class="col-md-10 form-group">
+                    <label for="tipoRecurso">Tipo del recurso</label>
+                    <input type="text" 
+                        name="tipoRecurso" 
+                        id="tipoRecurso" 
+                        class="form-control"
+                        value="{{recurso.tipoRecurso}}"
+                        placeholder="Computador, Impresora, Dispositivos de infraestructura de red, etc."
+                        required>
+                </div>
+
+                <div class="col-md-4 form-group">
+                    <label for="codigo">Codigo Asignado</label>
+                    <input type="text" 
+                        name="codigo" 
+                        id="codigo" 
+                        class="form-control"
+                        value="{{recurso.codigo}}"
+                        placeholder="Codigo">
+                </div>
+                <div class="col-md-4 form-group">
+                    <label for="serial">Serial del equipo</label>
+                    <input type="text" 
+                        name="serial" 
+                        id="serial" 
+                        class="form-control"
+                        value="{{recurso.serial}}"
+                        placeholder="Serial">
+                </div>
+                <div class="col-md-4 form-group">
+                    <label for="estado">Estado del recurso</label>
+                    <select name="estado" id="estado" class="form-control">
+                        <option value="Disponible" {{#if recurso.estado1}}selected{{/if}}>Disponible</option>
+                        <option value="En uso" {{#if recurso.estado2}}selected{{/if}}>En uso</option>
+                        <option value="En mantenimiento" {{#if recurso.estado3}}selected{{/if}}>En mantenimiento</option>
+                        <option value="Obsoleto" {{#if recurso.estado4}}selected{{/if}}>Obsoleto</option>
+                    </select>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label for="descripcionRecurso">Descripción del recurso</label>
+                    <textarea name="descripcionRecurso" id="descripcionRecurso" class="form-control"
+                        placeholder="Especificaciones del recurso, marca, modelo, referencia">{{recurso.descripcionRecurso}}</textarea>
+                </div>
+
+                <div class="col-md-12 form-group">
+                    <label for="observaciones">Observaciones</label>
+                    <textarea name="observaciones" id="observaciones" class="form-control"
+                        placeholder="Observaciones">{{recurso.observaciones}}</textarea>
+                </div>
+                    <div class="form-group d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary mx-2">Guardar</button>
+                        <a href="/recursos" class="btn btn-danger mx-2">Cancelar</a>
+                    </div>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>

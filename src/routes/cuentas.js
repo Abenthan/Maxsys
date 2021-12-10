@@ -27,7 +27,7 @@ router.post('/add', isLoggedIn, async (req, res) => {
         // Insertamos registro en cuentasUsuario
 
         const newCuentaUsuario = {
-            tipo: 1,
+            perfil: 'propietario',
             habilitar: 1,
             user_id: req.user.id,
             cuenta_id: idCuenta[0].id
@@ -55,7 +55,7 @@ router.get('/perfilCuenta/*', isLoggedIn, async (req, res) => {
     const ccuenta = await pool.query('SELECT * FROM cuentas INNER JOIN cuentasUsuario ON cuentas.id = cuentasUsuario.cuenta_id WHERE cuentasUsuario.cuenta_id = ? AND cuentasUsuario.user_id = ?', [idCuenta, req.user.id]);
     if (ccuenta.length > 0) {
         req.session.cuenta = {
-            id: ccuenta[0].id,
+            id: idCuenta,
             nombre: ccuenta[0].nombre
         };
         req.app.locals.cuenta = req.session.cuenta;

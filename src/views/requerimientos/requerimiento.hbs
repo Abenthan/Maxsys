@@ -1,13 +1,13 @@
 <div class="container p-4">
     <div class="row">
         <div class="col-md-8 mx-auto">
-            <div class="text-center">
+            <div class="text-center"> {{!-- titulo --}}
                 <h3>Requerimiento</h3>
                 <p># {{requerimiento.idRequerimiento}}</p>
             </div>
-            <div>
-                <form action="#" method="post">
-                    <div class="form-group">
+            <div> {{!-- formulario --}}
+                <form action="/requerimientos/requerimiento/{{requerimiento.idRequerimiento}}" method="post">
+                    <div class="form-group"> {{!-- proyecto --}}
                         <label for="proyecto">Proyecto</label>
                         {{#if requerimiento.permisoProyecto}}
                         <select name="proyecto" id="proyecto" class="form-control">
@@ -20,22 +20,22 @@
                         {{/if}}
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group"> {{!-- asunto --}}
                         <label for="asunto">Asunto</label>
                         <input type="text" name="asunto" id="asunto" class="form-control" value="{{requerimiento.asunto}}" disabled>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group"> {{!-- descripcion --}}
                         <label for="descripcion">Descripción</label>
                         <textarea name="descripcion" id="descripcion" class="form-control" disabled>{{requerimiento.descripcion}}</textarea>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group"> {{!-- conclusion --}}
                         <label for="conclusion">Conclusión</label>
                         <textarea name="conclusion" id="conclusion" class="form-control">{{requerimiento.conclusion}}</textarea>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group"> {{!-- estado --}}
                         <label for="estado">Estado</label>
                         <select name="estado" id="estado" class="form-control">
                             <option value="Abierto" {{#if requerimiento.estadoAbierto}}selected{{/if}}>Abierto</option>
@@ -48,9 +48,7 @@
                     <a href="/requerimientos/listarXUsuario" class="btn btn-secondary"></i>Salir</a>
 
                 </form>
-
             </div>
- 
-        </div>
+         </div>
     </div>
 </div>

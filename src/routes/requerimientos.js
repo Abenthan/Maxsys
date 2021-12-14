@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../database');
+const moment = require('moment');
 const { isLoggedIn, cuentaAbierta } = require('../lib/auth');
 const { permisos } = require('../lib/helpers');
 
@@ -29,7 +30,6 @@ router.get('/requerimiento/:idRequerimiento',isLoggedIn, async (req, res) => {
             default:
                 break;
         }
-        
         const permiso = await permisos(req.user.id, requerimiento.cuenta_id);
         console.log('permiso: ', permiso);
         if (permiso.requerimiento) {
@@ -39,9 +39,6 @@ router.get('/requerimiento/:idRequerimiento',isLoggedIn, async (req, res) => {
                 proyectos = await pool.query('SELECT * FROM proyectos WHERE cuenta_id = ?', [requerimiento.cuenta_id]);
             }
             
-            console.log('requerimiento:', requerimiento);
-            console.log('proyectos:', proyectos);
-
             res.render('requerimientos/requerimiento', { requerimiento, proyectos });
         } else {
             req.flash('message', 'No tienes permisos para ver este requerimiento');
@@ -51,12 +48,33 @@ router.get('/requerimiento/:idRequerimiento',isLoggedIn, async (req, res) => {
         req.flash('message', 'No existe el requerimiento');
         res.redirect('/requerimientos/listarXUsuario');
     }
- 
+  
+});
 
+// POST: Requerimiento 
+router.post('/requerimiento/:idRequerimiento', async (req, res) => {
+    const { idRequerimiento } = req.params;
+    const { proyecto, conclusion, estado } = req.body;
+    switch (estado) {
+        case 'Abierto':
+            await pool.query('UPDATE requerimientos SET estado = ?, conclusion = ?, proyecto_id = ? WHERE idRequerimiento = ?', [ estado, conclusion, proyecto, idRequerimiento]);
+            break;
+
+        case 'Cerrado':
+            const fechaFinalizacion = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+            await pool.query('UPDATE requerimientos SET fechaFinalizacion = ?, estado = ?, conclusion = ?, proyecto_id = ? WHERE idRequerimiento = ?', [ fechaFinalizacion, estado, conclusion, proyecto, idRequerimiento]);
+            break;
+
+        default:
+            req.flash('message', 'El estado debe ser Abierto o Cerrado');
+            res.redirect('/requerimientos/requerimiento/' + idRequerimiento);
+            break;
+    }
+    req.flash('success', 'Requerimiento actualizado correctamente');
+    res.redirect('/requerimientos/listarXUsuario');
     
 });
 
-//
 
 router.get('/crear', (req, res) => {
     const cuenta = req.session.cuenta;

@@ -1,6 +1,62 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../database');
+const { isLoggedIn, cuentaAbierta } = require('../lib/auth');
+const { permisos } = require('../lib/helpers');
+
+// GET: Requerimiento
+router.get('/requerimiento/:idRequerimiento',isLoggedIn, async (req, res) => {
+    const { idRequerimiento } = req.params;
+    const requerimientos = await pool.query('SELECT * FROM requerimientos WHERE idRequerimiento = ?', [idRequerimiento]);
+    if (requerimientos.length > 0) {
+        const requerimiento = {
+            idRequerimiento,
+            asunto: requerimientos[0].asunto,
+            descripcion: requerimientos[0].descripcion,
+            conclusion: requerimientos[0].conclusion,
+            estadoAbierto: false,
+            estadoCerrado: false,
+            cuenta_id: requerimientos[0].cuenta_id,
+            permisoProyecto: false
+        };
+        switch (requerimientos[0].estado) {
+            case 'Abierto':
+                requerimiento.estadoAbierto = true;
+                break;
+            case 'Cerrado':
+                requerimiento.estadoCerrado = true;
+                break;
+            default:
+                break;
+        }
+        
+        const permiso = await permisos(req.user.id, requerimiento.cuenta_id);
+        console.log('permiso: ', permiso);
+        if (permiso.requerimiento) {
+            var proyectos = '';
+            if (permiso.perfil == 'propietario' || permiso.perfil == 'soporte') {
+                requerimiento.permisoProyecto = true;
+                proyectos = await pool.query('SELECT * FROM proyectos WHERE cuenta_id = ?', [requerimiento.cuenta_id]);
+            }
+            
+            console.log('requerimiento:', requerimiento);
+            console.log('proyectos:', proyectos);
+
+            res.render('requerimientos/requerimiento', { requerimiento, proyectos });
+        } else {
+            req.flash('message', 'No tienes permisos para ver este requerimiento');
+            res.redirect('/requerimientos/listarXUsuario');
+        }
+    }else{
+        req.flash('message', 'No existe el requerimiento');
+        res.redirect('/requerimientos/listarXUsuario');
+    }
+ 
+
+    
+});
+
+//
 
 router.get('/crear', (req, res) => {
     const cuenta = req.session.cuenta;
@@ -36,7 +92,7 @@ router.get('/listar', async (req, res) => {
 
 //Listar todos los requerimientos del usuario
 router.get('/listarXUsuario', async (req, res) => {
-    const consulta = "SELECT cuentas.nombre, requerimientos.asunto, requerimientos.estado FROM requerimientos INNER JOIN cuentas ON requerimientos.cuenta_id = cuentas.id INNER JOIN cuentasUsuario ON cuentas.id = cuentasUsuario.cuenta_id INNER JOIN permisosCuentaUsuario ON cuentasUsuario.id = permisosCuentaUsuario.cuentasUsuario_id WHERE cuentasUsuario.user_id = ? AND permisosCuentaUsuario.reqListarXUsuario = 1";
+    const consulta = "SELECT requerimientos.idRequerimiento, requerimientos.asunto, requerimientos.estado, cuentas.nombre FROM requerimientos INNER JOIN cuentas ON requerimientos.cuenta_id = cuentas.id INNER JOIN cuentasUsuario ON cuentas.id = cuentasUsuario.cuenta_id INNER JOIN permisosCuentaUsuario ON cuentasUsuario.id = permisosCuentaUsuario.cuentasUsuario_id WHERE cuentasUsuario.user_id = ? AND permisosCuentaUsuario.reqListarXUsuario = 1";
     const requerimientos = await pool.query(consulta, [req.user.id]);
     res.render('requerimientos/listarXUsuario', { requerimientos });
 });

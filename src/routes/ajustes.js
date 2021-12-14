@@ -26,6 +26,7 @@ router.post('/consultaEmail', async (req, res) => {
             usuariosCuenta: permisosCU.usuariosCuenta,
             consultaEmail: permisosCU.consultaEmail,
             permisosCuentaUsuario: permisosCU.permisosCuentaUsuario,
+            requerimiento: permisosCU.requerimiento,
             reqListarXUsuario: permisosCU.reqListarXUsuario,
             reqListarXCuenta: permisosCU.reqListarXCuenta,
             reqCrear: permisosCU.reqCrear,
@@ -76,6 +77,7 @@ router.get('/permisosUsuario/:user_id', async (req, res) => {
             usuariosCuenta: permisosCU.usuariosCuenta,
             consultaEmail: permisosCU.consultaEmail,
             permisosCuentaUsuario: permisosCU.permisosCuentaUsuario,
+            requerimiento: permisosCU.requerimiento,
             reqListarXUsuario: permisosCU.reqListarXUsuario,
             reqListarXCuenta: permisosCU.reqListarXCuenta,
             reqCrear: permisosCU.reqCrear,
@@ -126,6 +128,7 @@ router.post('/permisosUsuario', async (req, res) => {
     const usuariosCuenta = unocero(req.body.usuariosCuenta);
     const consultaEmail = unocero(req.body.consultaEmail);
     const permisosCuentaUsuario = unocero(req.body.permisosCuentaUsuario);
+    const requerimiento = unocero(req.body.requerimiento);
     const reqListarXUsuario = unocero(req.body.reqListarXUsuario);
     const reqListarXCuenta = unocero(req.body.reqListarXCuenta);
     const reqCrear = unocero(req.body.reqCrear);
@@ -151,6 +154,7 @@ router.post('/permisosUsuario', async (req, res) => {
         usuariosCuenta: usuariosCuenta,
         consultaEmail: consultaEmail,
         permisosCuentaUsuario: permisosCuentaUsuario,
+        requerimiento: requerimiento,
         reqListarXUsuario: reqListarXUsuario,
         reqListarXCuenta: reqListarXCuenta,
         reqCrear: reqCrear,

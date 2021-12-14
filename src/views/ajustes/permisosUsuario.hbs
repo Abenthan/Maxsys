@@ -43,6 +43,14 @@
                                 Permisos de cuenta de usuario
                             </label>
                         </div>
+
+                        <div class="form-check">
+                            <label class="form-check-label" for="requerimiento">
+                                <input type="checkbox" class="form-check-input" id="requerimiento" name="requerimiento" value= "1" {{#if permisosCuenta.requerimiento}}checked{{/if}}>
+                                Requerimiento                                
+                            </label>
+                        </div>
+
                         <div class="form-check">
                             <label class="form-check-label" for="reqListarXUsuario">
                                 <input type="checkbox" class="form-check-input" id="reqListarXUsuario" name="reqListarXUsuario" value= "1" {{#if permisosCuenta.reqListarXUsuario}}checked{{/if}}>

@@ -22,10 +22,11 @@ helpers.permisos = async (user_id, cuenta_id) => {
     var permisos = {
         user_id,
         cuenta_id,
-        perfil: false,
+        perfil: 'estandar',
         usuariosCuenta: false,
         consultaEmail: false,
         permisosCuentaUsuario: false,
+        requerimiento: false,
         reqListarXUsuario: false,
         reqListarXCuenta: false,
         reqCrear: false,
@@ -46,6 +47,7 @@ helpers.permisos = async (user_id, cuenta_id) => {
             permisos.usuariosCuenta = pcu[0].usuariosCuenta;
             permisos.consultaEmail = pcu[0].consultaEmail;
             permisos.permisosCuentaUsuario = pcu[0].permisosCuentaUsuario;
+            permisos.requerimiento = pcu[0].requerimiento;
             permisos.reqListarXUsuario = pcu[0].reqListarXUsuario;
             permisos.reqListarXCuenta = pcu[0].reqListarXCuenta;
             permisos.reqCrear = pcu[0].reqCrear;

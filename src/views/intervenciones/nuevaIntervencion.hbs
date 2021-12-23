@@ -1,0 +1,86 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="text-center">
+                <h4>Nueva Intervencion</h4>{{!-- Titulo --}}
+            </div>
+            <div>
+                <form action="/intervenciones/nuevaIntervencion" method="post">
+
+                    <div class="form-group"> {{!-- Cuenta --}}
+                        <label for="nombreCuenta">Nombre de la cuenta</label>
+                        <input type="text" {{!-- nombreCuenta --}}
+                            name="nombreCuenta" 
+                            id="nombreCuenta" 
+                            class="form-control"
+                            value="{{intervencion.nombreCuenta}}" readonly>
+
+                        <input type="hidden" {{!-- cuenta_id oculto --}}
+                            name="cuenta_id" 
+                            id="cuenta_id" 
+                            class="form-control"
+                            value="{{intervencion.cuenta_id}}" readonly>
+                    </div>
+
+                    <div class="form-group"> {{!-- Requerimiento --}}
+                        <label for="asuntoRequerimiento">Requerimiento # {{intervencion.requerimiento_id}}</label>
+                        <input type="text" {{!-- asuntoRequerimiento --}}
+                            name="asuntoRequerimiento" 
+                            id="asuntoRequerimiento" 
+                            class="form-control"
+                            value="{{intervencion.asuntoRequerimiento}}" readonly>
+                        
+                        <input type="hidden" {{!-- requerimiento_id oculto --}}
+                            name="requerimiento_id" 
+                            class="form-control"
+                            value="{{intervencion.requerimiento_id}}">
+                    </div>
+
+                    <div class="form-group">{{!-- Recurso --}}
+                        <label for="recurso">Equipo Intervenido</label>
+                        <select name="recurso" id="recurso" class="form-control">
+                            {{#each recursos}}
+                                <option value="{{idRecurso}}">{{nombreRecurso}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="form-group">{{!-- nombreIntervencion --}}
+                        <label for="nombreIntervencion">Nombre de la intervencion</label>
+                        <input type="text" 
+                            name="nombreIntervencion" 
+                            id="nombreIntervencion" 
+                            class="form-control"
+                            placeholder="Nombre de la intervencion"
+                            autofocus>
+                    </div>
+
+                    <div class="form-group"> {{!-- descripcionIntervencion --}}
+                        <label for="descripcionIntervencion">Descripcion de la intervencion</label>
+                        <textarea name="descripcionIntervencion" 
+                            id="descripcionIntervencion" 
+                            class="form-control" 
+                            rows="3"
+                            placeholder="Descripcion de la intervencion"></textarea>
+                    </div>
+
+                    <div class="form-group">{{!-- conclusionIntervencion --}}
+                        <label for="conclusionIntervencion">Conclusion de la intervencion</label>
+                        <textarea name="conclusionIntervencion" 
+                            id="conclusionIntervencion" 
+                            class="form-control" 
+                            rows="3"
+                            placeholder="Conclusion de la intervencion"></textarea>
+                    </div>
+
+                    <div class="form-group"> {{!-- Botones --}}
+                        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i>Guardar</button>
+                        <a href="/intervenciones/intervencionesUsuario" class="btn btn-secondary"></i>Salir</a>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

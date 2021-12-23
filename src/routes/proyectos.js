@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../database');
+const moment = require('moment');
 const { isLoggedIn, cuentaAbierta } = require('../lib/auth');
 const { permisos } = require('../lib/helpers');
 
@@ -11,7 +12,14 @@ router.get('/', isLoggedIn, cuentaAbierta, async (req, res) => {
     const permiso = await permisos(req.user.id, cuenta.id);
     if (permiso.proyectos == 1) {
         const proyectos = await pool.query('SELECT * FROM proyectos WHERE cuenta_id = ?', [cuenta.id]);
+        
+        // cambio de fecha a formato dd/mm/yyyy
+        for (let i = 0; i < proyectos.length; i++) {
+            proyectos[i].fechaInicio = moment(proyectos[i].fechaInicio).format('DD/MM/YYYY');
+        }
+
         res.render('proyectos/proyectos', { proyectos });
+
     } else {
         req.flash('message', 'No tienes permisos para ver los proyectos');
         res.redirect('/cuentas/perfilCuenta/'+ cuenta.id);
@@ -72,8 +80,5 @@ router.post('/proyecto/:idProyecto', isLoggedIn, async (req, res) => {
     req.flash('success', 'Proyecto actualizado correctamente');
     res.redirect('/proyectos');
 });
-
-
-
 
 module.exports = router;

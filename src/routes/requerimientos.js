@@ -31,7 +31,6 @@ router.get('/requerimiento/:idRequerimiento',isLoggedIn, async (req, res) => {
                 break;
         }
         const permiso = await permisos(req.user.id, requerimiento.cuenta_id);
-        console.log('permiso: ', permiso);
         if (permiso.requerimiento) {
             var proyectos = '';
             if (permiso.perfil == 'propietario' || permiso.perfil == 'soporte') {
@@ -75,22 +74,24 @@ router.post('/requerimiento/:idRequerimiento', async (req, res) => {
     
 });
 
-
+// GET: crear requerimiento
 router.get('/crear', (req, res) => {
     const cuenta = req.session.cuenta;
     res.render('requerimientos/crear', { cuenta })
 });
 
+// POST: crear requerimiento
 router.post('/crear', async (req, res) => {
     const cuenta = req.session.cuenta;
     const newRequerimiento = {
         asunto: req.body.asunto,
         descripcion: req.body.descripcion,
+        estado: 'Abierto',
         cuenta_id: cuenta.id,
         user_id: req.user.id};    
     const idRequerimiento = await pool.query('INSERT INTO requerimientos SET ?', [newRequerimiento]);
     req.flash('success', 'Requerimiento enviado satisfactoriamente');
-    res.redirect('../cuentas/perfilcuenta/' + cuenta.id);
+    res.redirect('/requerimientos/listarXUsuario');
 });
 
 //Lista de requerimientos de una cuenta 

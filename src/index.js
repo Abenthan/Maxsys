@@ -60,6 +60,7 @@ app.use('/requerimientos', require('./routes/requerimientos'));
 app.use(require('./routes/autenticaciones'));
 app.use('/proyectos', require('./routes/proyectos'));
 app.use('/recursos', require('./routes/recursos'));
+app.use('/intervenciones', require('./routes/intervenciones'));
 
 //ARCHIVOS PUBLICOS
 app.use(express.static(path.join(__dirname, 'public'))); // decimos donde esta la carpeta 'public'

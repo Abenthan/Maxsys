@@ -14,8 +14,8 @@
                     <thead>
                         <tr>
                             <th>Nombre de proyecto</th>
-                            <th>Fecha de inicio</th>
-                            <th>Fecha de finalización</th>
+                            <th>Estado</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -24,8 +24,8 @@
                             <td><a href="/proyectos/proyecto/{{idProyecto}}">
                                 {{nombreProyecto}}
                             </a></td>
-                            <td>{{fechaInicio}}</td>
-                            <td>{{fechaFin}}</td>
+                            <td>{{estadoProyecto}}</td>
+                            <td><a href="/requerimientos/listarXProyecto/{{idProyecto}}">Requerimientos</a></td>
                         </tr>
                         {{/each}}
                     </tbody>

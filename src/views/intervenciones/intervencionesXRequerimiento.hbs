@@ -5,15 +5,18 @@
                 <h4>Intervenciones por requerimiento</h4>
             </div>
             <div class="text-center"> {{!-- titulo --}}
-                <p>{{requerimiento.nombreCuenta}}</p>
+                <p><strong>{{requerimiento.nombreCuenta}}</strong></p>
                 <br>
-                <p>Requerimiento #: {{requerimiento.idRequerimiento}} - Asunto: {{requerimiento.asunto}}</p>
+                <p>Requerimiento #: <strong>{{requerimiento.idRequerimiento}}</strong> - Asunto: <strong>{{requerimiento.asunto}}</strong></p>
                 <br>
             </div>
-            <div> {{!-- botones --}}
+            <div class="m-2"> {{!-- botones --}}
                 <a href="/intervenciones/nuevaIntervencion/{{requerimiento.idRequerimiento}}" class="btn btn-outline-info">
                     <i class="fas fa-plus"></i>
                     Nueva Intervención               
+                </a>
+                <a href="/requerimientos/requerimiento/{{requerimiento.idRequerimiento}}" class="btn btn-outline-info">
+                    Editar Requerimiento
                 </a>
             </div>
             <div class="table-responsive"> {{!-- tabla de intervenciones --}}

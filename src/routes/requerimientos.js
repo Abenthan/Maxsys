@@ -5,6 +5,46 @@ const moment = require('moment');
 const { isLoggedIn, cuentaAbierta } = require('../lib/auth');
 const { permisos } = require('../lib/helpers');
 
+// GET: crear requerimiento
+router.get('/crear', (req, res) => {
+    const cuenta = req.session.cuenta;
+    res.render('requerimientos/crear', { cuenta })
+});
+
+// POST: crear requerimiento
+router.post('/crear', async (req, res) => {
+    const cuenta = req.session.cuenta;
+    const newRequerimiento = {
+        asunto: req.body.asunto,
+        descripcion: req.body.descripcion,
+        estado: 'Abierto',
+        cuenta_id: cuenta.id,
+        user_id: req.user.id};    
+    const idRequerimiento = await pool.query('INSERT INTO requerimientos SET ?', [newRequerimiento]);
+    req.flash('success', 'Requerimiento enviado satisfactoriamente');
+    res.redirect('/requerimientos/listarXUsuario');
+});
+
+//Lista de requerimientos de una cuenta 
+router.get('/listarXCuenta/:id', async (req, res) => {
+    //const cuenta = req.session.cuenta;
+    const { id } = req.params;
+    const requerimientos = await pool.query('SELECT users.username, requerimientos.asunto, requerimientos.estado FROM requerimientos INNER JOIN users ON requerimientos.user_id = users.id WHERE cuenta_id = ?', [id]);
+    res.render('requerimientos/listarXCuenta', { requerimientos });
+});
+
+// Lista de requerimientos de un proyecto
+router.get('/listarXProyecto/:idProyecto', async (req, res) => {
+    const { idProyecto } = req.params;
+    const proyecto = await pool.query('SELECT * FROM proyectos WHERE idProyecto = ?', [idProyecto]);
+    const requerimientos = await pool.query('SELECT * FROM requerimientos WHERE proyecto_id = ?', [idProyecto]);
+    console.log(requerimientos);
+    
+    res.render('requerimientos/listarXProyecto', { proyecto: proyecto[0], requerimientos });
+});
+
+
+
 // GET: Requerimiento
 router.get('/requerimiento/:idRequerimiento',isLoggedIn, async (req, res) => {
     const { idRequerimiento } = req.params;
@@ -54,7 +94,8 @@ router.get('/requerimiento/:idRequerimiento',isLoggedIn, async (req, res) => {
 router.post('/requerimiento/:idRequerimiento', async (req, res) => {
     const { idRequerimiento } = req.params;
     const { proyecto, conclusion, estado } = req.body;
-    switch (estado) {
+    console.log(req.body);
+/*     switch (estado) {
         case 'Abierto':
             await pool.query('UPDATE requerimientos SET estado = ?, conclusion = ?, proyecto_id = ? WHERE idRequerimiento = ?', [ estado, conclusion, proyecto, idRequerimiento]);
             break;
@@ -68,39 +109,13 @@ router.post('/requerimiento/:idRequerimiento', async (req, res) => {
             req.flash('message', 'El estado debe ser Abierto o Cerrado');
             res.redirect('/requerimientos/requerimiento/' + idRequerimiento);
             break;
-    }
+    } */
     req.flash('success', 'Requerimiento actualizado correctamente');
     res.redirect('/requerimientos/listarXUsuario');
     
 });
 
-// GET: crear requerimiento
-router.get('/crear', (req, res) => {
-    const cuenta = req.session.cuenta;
-    res.render('requerimientos/crear', { cuenta })
-});
 
-// POST: crear requerimiento
-router.post('/crear', async (req, res) => {
-    const cuenta = req.session.cuenta;
-    const newRequerimiento = {
-        asunto: req.body.asunto,
-        descripcion: req.body.descripcion,
-        estado: 'Abierto',
-        cuenta_id: cuenta.id,
-        user_id: req.user.id};    
-    const idRequerimiento = await pool.query('INSERT INTO requerimientos SET ?', [newRequerimiento]);
-    req.flash('success', 'Requerimiento enviado satisfactoriamente');
-    res.redirect('/requerimientos/listarXUsuario');
-});
-
-//Lista de requerimientos de una cuenta 
-router.get('/listarXCuenta/:id', async (req, res) => {
-    //const cuenta = req.session.cuenta;
-    const { id } = req.params;
-    const requerimientos = await pool.query('SELECT users.username, requerimientos.asunto, requerimientos.estado FROM requerimientos INNER JOIN users ON requerimientos.user_id = users.id WHERE cuenta_id = ?', [id]);
-    res.render('requerimientos/listarXCuenta', { requerimientos });
-});
 
 //Listar todos los requerimientos
 router.get('/listar', async (req, res) => {

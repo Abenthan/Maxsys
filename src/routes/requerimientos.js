@@ -43,8 +43,6 @@ router.get('/listarXProyecto/:idProyecto', async (req, res) => {
     res.render('requerimientos/listarXProyecto', { proyecto: proyecto[0], requerimientos });
 });
 
-
-
 // GET: Requerimiento
 router.get('/requerimiento/:idRequerimiento',isLoggedIn, async (req, res) => {
     const { idRequerimiento } = req.params;
@@ -58,8 +56,11 @@ router.get('/requerimiento/:idRequerimiento',isLoggedIn, async (req, res) => {
             estadoAbierto: false,
             estadoCerrado: false,
             cuenta_id: requerimientos[0].cuenta_id,
+            idProyecto: requerimientos[0].proyecto_id,
+            nombreProyecto: '',
             permisoProyecto: false
         };
+
         switch (requerimientos[0].estado) {
             case 'Abierto':
                 requerimiento.estadoAbierto = true;
@@ -71,11 +72,22 @@ router.get('/requerimiento/:idRequerimiento',isLoggedIn, async (req, res) => {
                 break;
         }
         const permiso = await permisos(req.user.id, requerimiento.cuenta_id);
+
         if (permiso.requerimiento) {
             var proyectos = '';
+            
+            // si el requerimiento tiene idProyecto
+            if (requerimiento.idProyecto) {
+                // Obtener nombre del proyecto
+                const nombreProyecto = await pool.query('SELECT nombreProyecto FROM proyectos WHERE idProyecto = ?', [requerimiento.idProyecto]);            
+                requerimiento.nombreProyecto = nombreProyecto[0].nombreProyecto;
+            }
+
+            // configurar permiso=true, si es propietario o soporte, para cambiar proyecto
             if (permiso.perfil == 'propietario' || permiso.perfil == 'soporte') {
                 requerimiento.permisoProyecto = true;
                 proyectos = await pool.query('SELECT * FROM proyectos WHERE cuenta_id = ?', [requerimiento.cuenta_id]);
+                console.log(proyectos);
             }
             
             res.render('requerimientos/requerimiento', { requerimiento, proyectos });
@@ -93,29 +105,27 @@ router.get('/requerimiento/:idRequerimiento',isLoggedIn, async (req, res) => {
 // POST: Requerimiento 
 router.post('/requerimiento/:idRequerimiento', async (req, res) => {
     const { idRequerimiento } = req.params;
-    const { proyecto, conclusion, estado } = req.body;
+    const { conclusion, estado, idProyecto } = req.body;
     console.log(req.body);
-/*     switch (estado) {
+    switch (estado) {
         case 'Abierto':
-            await pool.query('UPDATE requerimientos SET estado = ?, conclusion = ?, proyecto_id = ? WHERE idRequerimiento = ?', [ estado, conclusion, proyecto, idRequerimiento]);
+            await pool.query('UPDATE requerimientos SET estado = ?, conclusion = ?, proyecto_id = ? WHERE idRequerimiento = ?', [ estado, conclusion, idProyecto, idRequerimiento]);
             break;
 
         case 'Cerrado':
             const fechaFinalizacion = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-            await pool.query('UPDATE requerimientos SET fechaFinalizacion = ?, estado = ?, conclusion = ?, proyecto_id = ? WHERE idRequerimiento = ?', [ fechaFinalizacion, estado, conclusion, proyecto, idRequerimiento]);
+            await pool.query('UPDATE requerimientos SET fechaFinalizacion = ?, estado = ?, conclusion = ?, proyecto_id = ? WHERE idRequerimiento = ?', [ fechaFinalizacion, estado, conclusion, idProyecto, idRequerimiento]);
             break;
 
         default:
             req.flash('message', 'El estado debe ser Abierto o Cerrado');
             res.redirect('/requerimientos/requerimiento/' + idRequerimiento);
             break;
-    } */
+    }
     req.flash('success', 'Requerimiento actualizado correctamente');
     res.redirect('/requerimientos/listarXUsuario');
     
 });
-
-
 
 //Listar todos los requerimientos
 router.get('/listar', async (req, res) => {

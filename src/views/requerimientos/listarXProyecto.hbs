@@ -7,12 +7,12 @@
             </div>
 
             <div class="m-2 text-center"> {{!-- Proyecto --}}
-                <p>id del proyecto: {{proyecto.idProyecto}}</p>
-                <p>nombre del proyecto: {{proyecto.nombreProyecto}}</p>
+                <p>id del proyecto: <strong>{{proyecto.idProyecto}}</strong></p>
+                <p>nombre del proyecto: <strong>{{proyecto.nombreProyecto}}</strong></p>
             </div>
 
             <div> {{!-- Botones --}}
-                <a href="/requerimiento/crear/{{idProyecto}}" class="btn btn-outline-info" >
+                <a href="/requerimientos/crear/{{idProyecto}}" class="btn btn-outline-info" >
                     Nuevo Requerimiento
                 </a>
             </div>
@@ -30,8 +30,8 @@
                     <tbody>
                         {{#each requerimientos}}
                         <tr>
-                            <td>{{idRequerimiento}}</td>
-                            <td>{{asunto}}</td>
+                            <td><a href="/requerimientos/requerimiento/{{idRequerimiento}}">{{idRequerimiento}}</a></td>
+                            <td><a href="/requerimientos/requerimiento/{{idRequerimiento}}">{{asunto}}</a></td>
                             <td>{{estado}}</td>
                             <td><a href="/intervenciones/intervencionesXRequerimiento/{{idRequerimiento}}">Intervenciones</a></td>
                         </tr>

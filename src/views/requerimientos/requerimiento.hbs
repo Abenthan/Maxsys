@@ -7,16 +7,23 @@
             </div>
             <div> {{!-- formulario --}}
                 <form action="/requerimientos/requerimiento/{{requerimiento.idRequerimiento}}" method="post">
+
                     <div class="form-group"> {{!-- proyecto --}}
-                        <label for="proyecto">Proyecto</label>
+
+                        <label for="proyecto">Proyecto:</label>
+
                         {{#if requerimiento.permisoProyecto}}
-                        <select name="proyecto" id="proyecto" class="form-control">
-                            {{#each proyectos}}
-                            <option value="{{idProyecto}}">{{nombreProyecto}}</option>
-                            {{/each}}
-                        </select>
+                            <input type="hidden" class="form-control" name="idProyecto" id="idProyecto" value="{{requerimiento.idProyecto}}" required>
+                            <input type="text" list="proyectos" class="form-control" name="proyecto" id="proyecto" value="{{requerimiento.nombreProyecto}}">
+                            <datalist id="proyectos">
+                                {{#each proyectos}}
+                                    <option value="{{idProyecto}} - {{nombreProyecto}}">{{idProyecto}} - {{nombreProyecto}}</option>
+                                {{/each}}
+                            </datalist>
                         {{else}}
-                        <input type="text" class="form-control" value="{{requerimiento.proyecto}}" readonly>
+                            <input type="text" class="form-control" name="proyecto" id="proyecto" value="{{requerimiento.nombreProyecto}}" readonly>
+                            <input type="hidden" class="form-control" name="idProyecto" id="idProyecto" value="{{requerimiento.idProyecto}}" required>
+
                         {{/if}}
                     </div>
 
@@ -52,3 +59,17 @@
          </div>
     </div>
 </div>
+
+    
+{{!-- Scripts --}} 
+<script> //hacemos arrayProyectos
+var arrayProyectos = [];
+    {{#each proyectos}}
+        arrayProyectos.push({
+            idProyecto: {{ idProyecto }},
+            nombreProyecto: "{{ nombreProyecto }}"
+        });
+    {{/each}}
+</script>
+
+<script src="/js/requerimientos/requerimiento.js"></script>

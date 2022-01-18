@@ -13,19 +13,17 @@
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
+                            <th>id</th>
                             <th>Nombre de proyecto</th>
                             <th>Estado</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {{#each proyectos}}
                         <tr>
-                            <td><a href="/proyectos/proyecto/{{idProyecto}}">
-                                {{nombreProyecto}}
-                            </a></td>
+                            <td><a href="/proyectos/proyecto/{{idProyecto}}">{{idProyecto}}</a></td>
+                            <td><a href="/requerimientos/listarXProyecto/{{idProyecto}}">{{nombreProyecto}}</a></td>
                             <td>{{estadoProyecto}}</td>
-                            <td><a href="/requerimientos/listarXProyecto/{{idProyecto}}">Requerimientos</a></td>
                         </tr>
                         {{/each}}
                     </tbody>

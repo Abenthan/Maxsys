@@ -15,6 +15,7 @@
                 <a href="/requerimientos/crear/{{idProyecto}}" class="btn btn-outline-info" >
                     Nuevo Requerimiento
                 </a>
+                <a href="/proyectos" class="btn btn-outline-success">Proyectos</a>
             </div>
 
             <div class="p-2"> {{!-- Tabla Requerimientos--}}
@@ -24,16 +25,14 @@
                             <th>id</th>
                             <th>Asunto</th>
                             <th>Estado</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {{#each requerimientos}}
                         <tr>
                             <td><a href="/requerimientos/requerimiento/{{idRequerimiento}}">{{idRequerimiento}}</a></td>
-                            <td><a href="/requerimientos/requerimiento/{{idRequerimiento}}">{{asunto}}</a></td>
+                            <td><a href="/intervenciones/intervencionesXRequerimiento/{{idRequerimiento}}">{{asunto}}</a></td>
                             <td>{{estado}}</td>
-                            <td><a href="/intervenciones/intervencionesXRequerimiento/{{idRequerimiento}}">Intervenciones</a></td>
                         </tr>
                         {{/each}}
                     </tbody>

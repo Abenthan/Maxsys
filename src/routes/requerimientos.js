@@ -6,9 +6,26 @@ const { isLoggedIn, cuentaAbierta } = require('../lib/auth');
 const { permisos } = require('../lib/helpers');
 
 // GET: crear requerimiento
-router.get('/crear', (req, res) => {
-    const cuenta = req.session.cuenta;
-    res.render('requerimientos/crear', { cuenta })
+router.get('/crear', isLoggedIn, cuentaAbierta, (req, res) => {
+    res.render('requerimientos/crear')
+});
+
+// GET: crear/:idProyecto
+router.get('/crear/:idProyecto', isLoggedIn, cuentaAbierta, async (req, res) => {
+    const perfilSoporte = true;
+    
+    // obtener proyecto
+    const { idProyecto } = req.params;
+    const proyecto = await pool.query('SELECT * FROM proyectos WHERE idProyecto = ?', [idProyecto]);
+    
+    const fechaHora = moment().format('YYYY-MM-DD HH:mm:ss');
+
+    if (proyecto.length > 0) {
+        res.render('requerimientos/crear', {proyecto: proyecto[0], fechaHora, perfilSoporte});
+    } else {
+        req.flash('message', 'Proyecto no encontrado');
+        res.redirect('/proyectos');
+    }
 });
 
 // POST: crear requerimiento
@@ -17,12 +34,32 @@ router.post('/crear', async (req, res) => {
     const newRequerimiento = {
         asunto: req.body.asunto,
         descripcion: req.body.descripcion,
+        fechaCreacion: '',
         estado: 'Abierto',
         cuenta_id: cuenta.id,
-        user_id: req.user.id};    
-    const idRequerimiento = await pool.query('INSERT INTO requerimientos SET ?', [newRequerimiento]);
+        user_id: req.user.id,
+        proyecto_id: null
+    };
+    // existe req.body.fechaHora ?
+    if (req.body.fechaHora) {
+        newRequerimiento.fechaCreacion = req.body.fechaHora;
+        newRequerimiento.proyecto_id = req.body.idProyecto;
+    } else {
+        // obtener horaFecha
+        const horaFecha = moment().format('YYYY-MM-DD HH:mm:ss');
+        newRequerimiento.fechaCreacion = horaFecha;
+    }
+    // insertar requerimiento
+    await pool.query('INSERT INTO requerimientos SET ?', [newRequerimiento]);
+
     req.flash('success', 'Requerimiento enviado satisfactoriamente');
-    res.redirect('/requerimientos/listarXUsuario');
+
+    // si tiene proyecto asociado redireccionar a listarXProyecto
+    if (newRequerimiento.proyecto_id) {
+       res.redirect('/requerimientos/listarXProyecto/' + newRequerimiento.proyecto_id);
+    } else {
+        res.redirect('/requerimientos/listarXUsuario');
+    }
 });
 
 //Lista de requerimientos de una cuenta 
@@ -52,7 +89,7 @@ router.get('/requerimiento/:idRequerimiento',isLoggedIn, async (req, res) => {
             idRequerimiento,
             asunto: requerimientos[0].asunto,
             descripcion: requerimientos[0].descripcion,
-            conclusion: requerimientos[0].conclusion,
+            observaciones: requerimientos[0].observaciones,
             estadoAbierto: false,
             estadoCerrado: false,
             cuenta_id: requerimientos[0].cuenta_id,
@@ -105,16 +142,16 @@ router.get('/requerimiento/:idRequerimiento',isLoggedIn, async (req, res) => {
 // POST: Requerimiento 
 router.post('/requerimiento/:idRequerimiento', async (req, res) => {
     const { idRequerimiento } = req.params;
-    const { conclusion, estado, idProyecto } = req.body;
+    const { observaciones, estado, idProyecto } = req.body;
     console.log(req.body);
     switch (estado) {
         case 'Abierto':
-            await pool.query('UPDATE requerimientos SET estado = ?, conclusion = ?, proyecto_id = ? WHERE idRequerimiento = ?', [ estado, conclusion, idProyecto, idRequerimiento]);
+            await pool.query('UPDATE requerimientos SET estado = ?, observaciones = ?, proyecto_id = ? WHERE idRequerimiento = ?', [ estado, observaciones, idProyecto, idRequerimiento]);
             break;
 
         case 'Cerrado':
             const fechaFinalizacion = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-            await pool.query('UPDATE requerimientos SET fechaFinalizacion = ?, estado = ?, conclusion = ?, proyecto_id = ? WHERE idRequerimiento = ?', [ fechaFinalizacion, estado, conclusion, idProyecto, idRequerimiento]);
+            await pool.query('UPDATE requerimientos SET fechaFinalizacion = ?, estado = ?, observaciones = ?, proyecto_id = ? WHERE idRequerimiento = ?', [ fechaFinalizacion, estado, observaciones, idProyecto, idRequerimiento]);
             break;
 
         default:
